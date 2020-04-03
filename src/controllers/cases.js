@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { Case } from '../models/models';
 import { todayMinusNDays, timeStampIsValid } from '../dateUtils';
 
@@ -18,11 +20,9 @@ export const getCases = async (req, res, next) => {
   limit = Number(limit) || 15;
 
   const filter = {};
-  if (country) filter.country = country;
+  if (country) filter.country = Types.ObjectId(country);
   if (startDate) filter.recordDate = { $gt: startDate };
   if (endDate) filter.recordDate = { ...filter.recordDate, $lt: endDate };
-
-  console.log('filter', filter);
 
   try {
     const total = await Case.countDocuments(filter);
