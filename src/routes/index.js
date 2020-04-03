@@ -1,10 +1,10 @@
 import express from 'express';
 
-import { messagesPage, addMessage } from '../controllers';
+import { getCountries, getCases } from '../controllers';
 
 const indexRouter = express.Router();
 
-indexRouter.get('/messages', messagesPage);
-indexRouter.post('/messages', addMessage);
+indexRouter.get('/cases', getCases);
+indexRouter.get('/countries', getCountries);
 
 export default indexRouter;
