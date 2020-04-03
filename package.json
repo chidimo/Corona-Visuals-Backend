@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "babel ./src --out-dir build& node ./build/bin/www",
+    "prestart": "babel ./src --out-dir build",
+    "start": "node ./build/bin/www",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "./node_modules/.bin/eslint ./src",
     "pretty": "prettier --write '**/*.{js,json}' '!node_modules/**' '!build/**' '!coverage/**' '!.nyc_output/**'",
