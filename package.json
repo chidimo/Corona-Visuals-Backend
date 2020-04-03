@@ -1,6 +1,6 @@
 {
-  "name": "express-api-template-with-mongodb",
-  "version": "0.0.0",
+  "name": "corona-visuals-backend",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "prestart": "babel ./src --out-dir build",
