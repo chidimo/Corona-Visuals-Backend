@@ -21,3 +21,17 @@ export const getCountries = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getAllCountries = async (req, res, next) => {
+  try {
+    const total = await Country.countDocuments();
+    const results = await Country.find().sort({ name: 1 });
+    res.status(200).json({
+      success: true,
+      metadata: { total, returned: results.length },
+      results,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
