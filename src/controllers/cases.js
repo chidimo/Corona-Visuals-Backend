@@ -4,7 +4,7 @@ import { Case } from '../models/models';
 import { todayMinusNDays, timeStampIsValid } from '../dateUtils';
 
 export const getCases = async (req, res, next) => {
-  const { country } = req.query;
+  const { country, countryName } = req.query;
   let {
     skip, limit, startDate, endDate
   } = req.query;
@@ -20,7 +20,9 @@ export const getCases = async (req, res, next) => {
   limit = Number(limit) || 15;
 
   const filter = {};
+  if (countryName) filter.country_name = countryName;
   if (country) filter.country = Types.ObjectId(country);
+
   if (startDate) filter.recordDate = { $gt: startDate };
   if (endDate) filter.recordDate = { ...filter.recordDate, $lt: endDate };
 
