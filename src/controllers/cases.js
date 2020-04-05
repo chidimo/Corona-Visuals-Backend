@@ -6,14 +6,14 @@ import { todayMinusNDays, timeStampIsValid } from '../dateUtils';
 export const getCases = async (req, res, next) => {
   const { country, countryName } = req.query;
   let {
-    skip, limit, startDate, endDate
+    skip, limit, fromDate, toDate
   } = req.query;
 
-  // if no endDate, set it to today
-  // if no startDate, set it 30 days back
-  endDate = timeStampIsValid(endDate) ? new Date(endDate) : new Date();
-  startDate = timeStampIsValid(startDate)
-    ? new Date(startDate)
+  // if no toDate, set it to today
+  // if no fromDate, set it 30 days back
+  toDate = timeStampIsValid(toDate) ? new Date(toDate) : new Date();
+  fromDate = timeStampIsValid(fromDate)
+    ? new Date(fromDate)
     : todayMinusNDays(30);
 
   skip = Number(skip) || 0;
@@ -23,8 +23,8 @@ export const getCases = async (req, res, next) => {
   if (countryName) filter.country_name = countryName;
   if (country) filter.country = Types.ObjectId(country);
 
-  if (startDate) filter.recordDate = { $gt: startDate };
-  if (endDate) filter.recordDate = { ...filter.recordDate, $lt: endDate };
+  if (fromDate) filter.recordDate = { $gt: fromDate };
+  if (toDate) filter.recordDate = { ...filter.recordDate, $lt: toDate };
 
   try {
     const total = await Case.countDocuments(filter);

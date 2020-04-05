@@ -1,7 +1,6 @@
 import { tsRegex, monthNames, ordinalSuffix } from './helpers';
 
 export const timeStampIsValid = timeStamp => {
-  // 15th January 2020
   if (!timeStamp) return false;
   if (!timeStamp.match(tsRegex)) return false;
   return true;
