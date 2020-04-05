@@ -3,6 +3,32 @@ import { Types } from 'mongoose';
 import { Case } from '../models/models';
 import { todayMinusNDays, timeStampIsValid } from '../dateUtils';
 
+export const getMostRecentCaseById = async (req, res, next) => {
+  const { country } = req.query;
+
+  try {
+    const result = await Case.find({ country: Types.ObjectId(country) })
+      .sort({ recordDate: -1 })
+      .limit(1);
+    res.status(200).json({ success: true, result });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getMostRecentCaseByName = async (req, res, next) => {
+  const { countryName } = req.query;
+
+  try {
+    const result = await Case.find({ country_name: countryName })
+      .sort({ recordDate: -1 })
+      .limit(1);
+    res.status(200).json({ success: true, result });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getCases = async (req, res, next) => {
   const { country, countryName } = req.query;
   let {
