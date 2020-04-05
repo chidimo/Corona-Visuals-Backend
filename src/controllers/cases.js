@@ -58,6 +58,36 @@ export const getFirstCaseByCountryName = async (req, res, next) => {
   }
 };
 
+export const getFirstDeathByCountryId = async (req, res, next) => {
+  const { country } = req.query;
+  try {
+    const result = await Case.find({
+      country: Types.ObjectId(country),
+      new_deaths: { $gt: 0 },
+    })
+      .sort({ recordDate: 1 })
+      .limit(1);
+    res.status(200).json({ success: true, result });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getFirstDeathByCountryName = async (req, res, next) => {
+  const { countryName } = req.query;
+  try {
+    const result = await Case.find({
+      country_name: countryName,
+      new_deaths: { $gt: 0 },
+    })
+      .sort({ recordDate: 1 })
+      .limit(1);
+    res.status(200).json({ success: true, result });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getCases = async (req, res, next) => {
   const { country, countryName } = req.query;
   let {
