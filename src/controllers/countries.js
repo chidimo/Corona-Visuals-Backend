@@ -1,6 +1,8 @@
+import { Types } from 'mongoose';
+
 import { Country } from '../models/models';
 
-export const getCountries = async (req, res, next) => {
+export const getPaginatedCountries = async (req, res, next) => {
   let { skip, limit } = req.query;
   limit = Number(limit) || 15;
   skip = Number(skip) || 0;
@@ -17,6 +19,26 @@ export const getCountries = async (req, res, next) => {
       metadata: { total, returned: results.length },
       results,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getCountryById = async (req, res, next) => {
+  const { _id } = req.params;
+  try {
+    const country = await Country.find({ _id: Types.ObjectId(_id) });
+    res.status(200).json({ success: true, country });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getCountryByName = async (req, res, next) => {
+  const { name } = req.query;
+  try {
+    const country = await Country.find({ name });
+    res.status(200).json({ success: true, country });
   } catch (err) {
     next(err);
   }

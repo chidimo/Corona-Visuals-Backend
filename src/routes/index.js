@@ -2,7 +2,7 @@ import express from 'express';
 
 import {
   getCases,
-  getCountries,
+  getPaginatedCountries,
   getAllCountries,
   getMostRecentCaseByCountryId,
   getMostRecentCaseByCountryName,
@@ -11,13 +11,19 @@ import {
   getFirstCaseByCountryName,
   getFirstDeathByCountryId,
   getFirstDeathByCountryName,
+  getCountryById,
+  getCountryByName,
 } from '../controllers';
 
 const indexRouter = express.Router();
 
 indexRouter.get('/cases', getCases);
-indexRouter.get('/countries', getCountries);
+indexRouter.get('/countries', getPaginatedCountries);
 indexRouter.get('/all-countries', getAllCountries);
+
+indexRouter.get('/country/:_id', getCountryById);
+indexRouter.get('/country', getCountryByName);
+
 indexRouter.get('/most-recent-case-by-id', getMostRecentCaseByCountryId);
 indexRouter.get('/most-recent-case-by-name', getMostRecentCaseByCountryName);
 
