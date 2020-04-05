@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { Case } from '../models/models';
 import { todayMinusNDays, timeStampIsValid } from '../dateUtils';
 
-export const getMostRecentCaseById = async (req, res, next) => {
+export const getMostRecentCaseByCountryId = async (req, res, next) => {
   const { country } = req.query;
 
   try {
@@ -16,7 +16,7 @@ export const getMostRecentCaseById = async (req, res, next) => {
   }
 };
 
-export const getMostRecentCaseByName = async (req, res, next) => {
+export const getMostRecentCaseByCountryName = async (req, res, next) => {
   const { countryName } = req.query;
 
   try {
