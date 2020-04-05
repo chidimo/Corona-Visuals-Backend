@@ -18,10 +18,39 @@ export const getMostRecentCaseByCountryId = async (req, res, next) => {
 
 export const getMostRecentCaseByCountryName = async (req, res, next) => {
   const { countryName } = req.query;
-
   try {
     const result = await Case.find({ country_name: countryName })
       .sort({ recordDate: -1 })
+      .limit(1);
+    res.status(200).json({ success: true, result });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getFirstCaseByCountryId = async (req, res, next) => {
+  const { country } = req.query;
+  try {
+    const result = await Case.find({
+      country: Types.ObjectId(country),
+      new_cases: { $gt: 0 },
+    })
+      .sort({ recordDate: 1 })
+      .limit(1);
+    res.status(200).json({ success: true, result });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getFirstCaseByCountryName = async (req, res, next) => {
+  const { countryName } = req.query;
+  try {
+    const result = await Case.find({
+      country_name: countryName,
+      new_cases: { $gt: 0 },
+    })
+      .sort({ recordDate: 1 })
       .limit(1);
     res.status(200).json({ success: true, result });
   } catch (err) {
@@ -60,6 +89,22 @@ export const getCases = async (req, res, next) => {
     res
       .status(200)
       .json({ metadata: { total, returned: results.length }, results });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getMostRecentCaseForAllCountries = async (req, res, next) => {
+  try {
+    const countries = Country.find({});
+    countries.map(c => {
+      console.log(typeof c, c);
+      return c;
+    });
+    const result = await Case.find({})
+      .sort({ recordDate: -1 })
+      .limit(1);
+    res.status(200).json({ success: true, result });
   } catch (err) {
     next(err);
   }
