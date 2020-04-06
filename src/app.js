@@ -5,6 +5,7 @@ import express from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 
+import { verifySecret } from './middleware';
 import indexRouter from './routes/index';
 import { logErrors, clientError, serverError } from './errorHandlers';
 
@@ -20,6 +21,7 @@ app.use(helmet());
 app.use(cors('*'));
 app.use(compression());
 
+app.use(verifySecret);
 app.use('/api/v1', indexRouter);
 
 app.use(logErrors);
