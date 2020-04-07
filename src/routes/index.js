@@ -6,13 +6,13 @@ import {
   getAllCountries,
   getMostRecentCaseByCountryId,
   getMostRecentCaseByCountryName,
-  getMostRecentCaseForAllCountries,
   getFirstCaseByCountryId,
   getFirstCaseByCountryName,
   getFirstDeathByCountryId,
   getFirstDeathByCountryName,
   getCountryById,
   getCountryByName,
+  getAllCountryCasesByDay,
 } from '../controllers';
 
 const indexRouter = express.Router();
@@ -33,6 +33,6 @@ indexRouter.get('/first-case-by-name', getFirstCaseByCountryName);
 indexRouter.get('/first-death-by-id', getFirstDeathByCountryId);
 indexRouter.get('/first-death-by-name', getFirstDeathByCountryName);
 
-indexRouter.get('/most-recent-country-cases', getMostRecentCaseForAllCountries);
+indexRouter.get('/get-cases-by-day', getAllCountryCasesByDay);
 
 export default indexRouter;

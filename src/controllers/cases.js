@@ -124,17 +124,25 @@ export const getCases = async (req, res, next) => {
   }
 };
 
-export const getMostRecentCaseForAllCountries = async (req, res, next) => {
+export const getAllCountryCasesByDay = async (req, res, next) => {
   try {
-    const countries = Country.find({});
-    countries.map(c => {
-      console.log(typeof c, c);
-      return c;
-    });
-    const result = await Case.find({})
-      .sort({ recordDate: -1 })
-      .limit(1);
-    res.status(200).json({ success: true, result });
+    let { day } = req.query;
+    day = timeStampIsValid(day) ? new Date(day) : todayMinusNDays(1, true);
+
+    const iso = new Date(day).toISOString();
+    const formattedDate = `${iso.split('T')[0]}T00:00:00.000+00:00`;
+
+    // exclude world
+    const filter = {
+      recordDate: new Date(formattedDate),
+      country_name: { $ne: 'World' },
+    };
+
+    const results = await Case.find(filter);
+    const total = await Case.countDocuments(filter);
+    res
+      .status(200)
+      .json({ metadata: { total, returned: results.length }, results });
   } catch (err) {
     next(err);
   }
